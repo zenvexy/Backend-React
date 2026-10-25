@@ -2,15 +2,20 @@
 
 Frontend web em React e Expo Router para gerenciar roupas e categorias. O código-fonte fica em `src/`; a versão HTML gerada para publicação fica em `site/`.
 
+**[Acessar o site publicado no GitHub Pages](https://zenvexy.github.io/Backend-React/)**
+
 ## Screenshots
 
 ### Home
+
 ![Home](/_assets/screenshot1.png)
 
 ### Roupas
+
 ![Roupas](/_assets/screenshot2.png)
 
 ### Categorias
+
 ![Categorias](/_assets/screenshot3.png)
 
 ## Páginas e funcionalidades
@@ -27,7 +32,7 @@ Cadastre uma categoria antes de cadastrar roupas. Cada roupa tem nome, tamanho, 
 
 ## Requisitos e dependências
 
-Tenha Node.js, npm e um navegador instalados. As versões das dependências estão no [`package.json`](package.json) e são instaladas com `npm install`.
+Para executar o projeto localmente, são necessários Node.js, npm e um navegador. As versões das dependências estão no [`package.json`](package.json) e são instaladas com `npm install`.
 
 | Dependências principais | Uso |
 | --- | --- |
@@ -80,7 +85,33 @@ As páginas usam `useState` para os campos e listas, e `useEffect` para carregar
 
 ## Configurar o app.json
 
-Estas são as partes relevantes do [`app.json`](app.json); mantenha as demais configurações do arquivo:
+Os exemplos abaixo mostram os campos do [`app.json`](app.json) usados em cada ambiente. As demais configurações do arquivo devem ser preservadas.
+
+### Desenvolvimento React (.tsx)
+
+Para desenvolver com o Expo, execute dentro de `react-web`:
+
+```cmd
+npm run web
+```
+
+O desenvolvimento pelo Expo funciona com o mesmo `output` usado na exportação HTML:
+
+```json
+{
+  "expo": {
+    "web": {
+      "output": "static"
+    }
+  }
+}
+```
+
+O comando `npm run web` executa o código de `src/` com atualização durante o desenvolvimento. O `output` pode permanecer como `"static"`, e o `baseUrl` da publicação não precisa ser alterado nesse modo.
+
+### HTML em servidor local
+
+Para testar a exportação HTML em um servidor local que publica a raiz do repositório, a configuração é:
 
 ```json
 {
@@ -89,23 +120,34 @@ Estas são as partes relevantes do [`app.json`](app.json); mantenha as demais co
       "output": "static"
     },
     "experiments": {
-      "baseUrl": "/Backend-React/react-web/site",
-      "typedRoutes": true,
-      "reactCompiler": true
+      "baseUrl": "/react-web/site"
     }
   }
 }
 ```
 
-`output: "static"` gera arquivos HTML. O `baseUrl` define o caminho dos links, CSS e JavaScript na versão exportada:
+Após essa alteração, `npm run build:web` gera a versão local em `site/`. As instruções de acesso estão na próxima seção.
 
-| Ambiente | `baseUrl` |
-| --- | --- |
-| Servidor local publicando a raiz deste repositório | `/react-web/site` |
-| GitHub Pages, publicando a raiz de `Backend-React` | `/Backend-React/react-web/site` |
-| Conteúdo de `site/` na raiz de um domínio | `""` |
+### HTML publicado no GitHub Pages
 
-O projeto está configurado para o GitHub Pages. O nome `/Backend-React` precisa fazer parte dos caminhos publicados; sem ele, o CSS, o JavaScript e as outras páginas não são encontrados. Depois de alterar o `baseUrl`, gere novamente o HTML. Para desenvolver os `.tsx` localmente, continue usando `npm run web`.
+A versão publicada usa `"static"` e o caminho completo do site dentro do repositório:
+
+```json
+{
+  "expo": {
+    "web": {
+      "output": "static"
+    },
+    "experiments": {
+      "baseUrl": "/Backend-React/react-web/site"
+    }
+  }
+}
+```
+
+Essa é a configuração atual do projeto. Atualizações da versão publicada devem ser geradas com `npm run build:web` antes de enviar os arquivos ao GitHub.
+
+O `output` define como o site será exportado: `"static"` gera HTML; `"server"` exige um servidor de renderização. O `baseUrl` ajusta os caminhos dos links, CSS e JavaScript. Alterações nesses campos exigem uma nova exportação.
 
 ## Gerar e testar a versão HTML
 
@@ -115,9 +157,9 @@ Dentro de `react-web`, execute:
 npm run build:web
 ```
 
-Esse comando exporta o projeto para `site/` e executa `scripts/ajustar-exportacao.js`. Além de `roupas.html` e `categorias.html`, ele prepara `roupas/index.html` e `categorias/index.html`, permitindo atualizar essas URLs sem o erro `Cannot GET` em servidores estáticos comuns.
+Esse comando exporta o projeto para `site/` e executa `scripts/ajustar-exportacao.js`. Além de `roupas.html` e `categorias.html`, ele prepara `roupas/index.html` e `categorias/index.html` para permitir acesso direto e atualização das páginas em servidores estáticos.
 
-Edite sempre os arquivos de `src/`. Depois de alterar o código, o CSS, o `app.json` ou a URL da API, execute `npm run build:web` novamente. Não edite os arquivos gerados: a próxima exportação os substitui.
+As alterações devem ser feitas nos arquivos de `src/`. Mudanças no código, no CSS, no `app.json` ou na URL da API exigem uma nova execução de `npm run build:web`. Os arquivos de `site/` são substituídos durante a exportação.
 
 Para testar o HTML por um servidor local, altere temporariamente o `baseUrl` para `/react-web/site` e execute `npm run build:web`. Depois, abra um terminal **na raiz do repositório**:
 
@@ -127,7 +169,7 @@ npx serve . -l 8080
 
 Acesse `http://localhost:8080/`. O [`index.html` da raiz](../index.html) encaminha para `./react-web/site/`. Também é possível usar o Live Server, servindo a mesma raiz. Abrir o arquivo com dois cliques (`file://`) não substitui o servidor HTTP.
 
-Antes de enviar a versão ao Pages, restaure `/Backend-React/react-web/site` e execute `npm run build:web` novamente. Se estiver apenas desenvolvendo, prefira `npm run web`, sem alterar o `baseUrl`.
+Para atualizar a versão publicada após um teste HTML local, o `baseUrl` deve voltar para `/Backend-React/react-web/site` antes de executar `npm run build:web`. O desenvolvimento com `npm run web` dispensa essa troca de configuração.
 
 ## Conexão com a API
 
@@ -137,23 +179,21 @@ A URL fica em [`src/scripts/script.ts`](src/scripts/script.ts):
 const url = "http://localhost:3002";
 ```
 
-Mantenha a API ligada para usar os cadastros. As instruções do backend ficam no [README da raiz](../README.md).
+A versão atual do frontend usa esse endereço local. Os cadastros dependem da API em execução, conforme as instruções do [README da raiz](../README.md).
 
-Para publicação, use a URL de uma API pública em HTTPS e gere o site novamente. O Pages hospeda apenas o frontend; `localhost` aponta para o computador de quem abre a página.
+O site publicado no Pages hospeda apenas o frontend. Para disponibilizar o CRUD aos visitantes, a URL deve apontar para uma API pública em HTTPS, seguida de uma nova exportação. `localhost` aponta para o computador de quem abre a página.
 
-## Publicar no GitHub Pages
+## Publicação e atualizações
 
-Para publicar este repositório pela raiz, sem domínio próprio:
+A hospedagem está disponível em [zenvexy.github.io/Backend-React](https://zenvexy.github.io/Backend-React/). O Pages publica a branch `main`, pela pasta `/(root)`, e o `index.html` da raiz redireciona para `react-web/site/`.
 
-1. Confira se o `baseUrl` no `app.json` é `/Backend-React/react-web/site`, como já está configurado.
-2. No `script.ts`, configure a URL pública da API para disponibilizar o CRUD aos visitantes.
-3. Execute `npm run build:web` dentro de `react-web`.
-4. Envie os arquivos atualizados, incluindo toda a pasta `site/`, o `index.html` da raiz e `.nojekyll`.
-5. Em **Settings > Pages**, escolha **Deploy from a branch**, a branch desejada e a pasta **/(root)**.
+Para atualizar o site:
 
-O endereço esperado é `https://zenvexy.github.io/Backend-React/`, que redireciona para o site exportado. O `.nojekyll` evita o processamento do Jekyll e preserva pastas como `_expo`.
+1. Mantenha o `baseUrl` de publicação: `/Backend-React/react-web/site`.
+2. Execute `npm run build:web` dentro de `react-web`.
+3. Envie o código alterado e toda a pasta `site/` para a branch `main`.
 
-Para voltar a testar o HTML pelo servidor local, restaure o `baseUrl` para `/react-web/site` e execute `npm run build:web`. O comando `npm run web` continua sendo usado para desenvolver.
+O `index.html` da raiz e o arquivo `.nojekyll` devem permanecer no repositório. O `.nojekyll` evita o processamento do Jekyll e preserva pastas como `_expo`, que contém os arquivos de estilo e JavaScript.
 
 ## Comandos rápidos
 
