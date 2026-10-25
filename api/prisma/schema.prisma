@@ -1,0 +1,33 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model Categoria {
+  id       Int       @id @default(autoincrement())
+  nome     String    @unique
+  roupas Roupa[]
+}
+
+model Roupa {
+  id          Int       @id @default(autoincrement())
+  nome        String
+  tamanho     Tamanho
+  cor         String
+  preco       Float
+  quantidade  Int       
+  categoriaId Int
+  categoria   Categoria @relation(fields: [categoriaId], references: [id])
+}
+
+enum Tamanho {
+  PP
+  P
+  M
+  G
+  GG
+  XG
+}

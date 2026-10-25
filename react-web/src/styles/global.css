@@ -1,0 +1,148 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  color: #222;
+  background: #f5f5f5;
+}
+
+.pagina {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
+  width: 100%;
+}
+
+header {
+  flex-shrink: 0;
+  padding: 20px;
+  background: #fff;
+  border-bottom: 1px solid #ddd;
+}
+
+nav, .acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+a {
+  color: #2458a6;
+}
+
+main {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+section {
+  scroll-margin-top: 20px;
+  margin-bottom: 24px;
+  padding: 20px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+h1, h2 {
+  margin-top: 0;
+}
+
+form {
+  max-width: 420px;
+}
+
+label {
+  display: block;
+  margin-bottom: 12px;
+}
+
+input, select {
+  display: block;
+  width: 100%;
+  margin-top: 5px;
+  padding: 8px;
+  border: 1px solid #999;
+  border-radius: 4px;
+  font: inherit;
+}
+
+button, .botao {
+  display: inline-block;
+  padding: 9px 12px;
+  background: #2458a6;
+  color: #fff;
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+  font: inherit;
+  text-decoration: none;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.secundario {
+  background: #555;
+}
+
+.excluir {
+  background: #b32626;
+}
+
+.erro {
+  color: #a11b1b;
+}
+
+.sucesso {
+  color: #24602c;
+}
+
+.tabela {
+  overflow-x: auto;
+  margin-top: 16px;
+}
+
+input[type="search"] {
+  max-width: 420px;
+}
+
+:focus-visible {
+  outline: 2px solid #2458a6;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  main {
+    scroll-behavior: auto;
+  }
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+td button {
+  margin: 3px;
+}
