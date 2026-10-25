@@ -89,7 +89,7 @@ Estas são as partes relevantes do [`app.json`](app.json); mantenha as demais co
       "output": "static"
     },
     "experiments": {
-      "baseUrl": "/react-web/site",
+      "baseUrl": "/Backend-React/react-web/site",
       "typedRoutes": true,
       "reactCompiler": true
     }
@@ -105,7 +105,7 @@ Estas são as partes relevantes do [`app.json`](app.json); mantenha as demais co
 | GitHub Pages, publicando a raiz de `Backend-React` | `/Backend-React/react-web/site` |
 | Conteúdo de `site/` na raiz de um domínio | `""` |
 
-O projeto está configurado para o primeiro caso. Depois de alterar o `baseUrl`, gere novamente o HTML. Para desenvolver os `.tsx`, continue usando `npm run web`.
+O projeto está configurado para o GitHub Pages. O nome `/Backend-React` precisa fazer parte dos caminhos publicados; sem ele, o CSS, o JavaScript e as outras páginas não são encontrados. Depois de alterar o `baseUrl`, gere novamente o HTML. Para desenvolver os `.tsx` localmente, continue usando `npm run web`.
 
 ## Gerar e testar a versão HTML
 
@@ -119,13 +119,15 @@ Esse comando exporta o projeto para `site/` e executa `scripts/ajustar-exportaca
 
 Edite sempre os arquivos de `src/`. Depois de alterar o código, o CSS, o `app.json` ou a URL da API, execute `npm run build:web` novamente. Não edite os arquivos gerados: a próxima exportação os substitui.
 
-Para testar o HTML com o `baseUrl` local, abra um terminal **na raiz do repositório**:
+Para testar o HTML por um servidor local, altere temporariamente o `baseUrl` para `/react-web/site` e execute `npm run build:web`. Depois, abra um terminal **na raiz do repositório**:
 
 ```cmd
 npx serve . -l 8080
 ```
 
 Acesse `http://localhost:8080/`. O [`index.html` da raiz](../index.html) encaminha para `./react-web/site/`. Também é possível usar o Live Server, servindo a mesma raiz. Abrir o arquivo com dois cliques (`file://`) não substitui o servidor HTTP.
+
+Antes de enviar a versão ao Pages, restaure `/Backend-React/react-web/site` e execute `npm run build:web` novamente. Se estiver apenas desenvolvendo, prefira `npm run web`, sem alterar o `baseUrl`.
 
 ## Conexão com a API
 
@@ -143,7 +145,7 @@ Para publicação, use a URL de uma API pública em HTTPS e gere o site novament
 
 Para publicar este repositório pela raiz, sem domínio próprio:
 
-1. No `app.json`, altere o `baseUrl` para `/Backend-React/react-web/site`.
+1. Confira se o `baseUrl` no `app.json` é `/Backend-React/react-web/site`, como já está configurado.
 2. No `script.ts`, configure a URL pública da API para disponibilizar o CRUD aos visitantes.
 3. Execute `npm run build:web` dentro de `react-web`.
 4. Envie os arquivos atualizados, incluindo toda a pasta `site/`, o `index.html` da raiz e `.nojekyll`.

@@ -34,7 +34,7 @@
       ]
     ],
     "experiments": {
-      "baseUrl": "/react-web/site",
+      "baseUrl": "/Backend-React/react-web/site",
       "typedRoutes": true,
       "reactCompiler": true
     }
