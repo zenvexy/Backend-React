@@ -2,6 +2,8 @@
 
 Backend REST desenvolvido com Node.js, Express, Prisma e MySQL/MariaDB. A API permite cadastrar e consultar categorias e roupas, e oferece documentação interativa com Swagger UI.
 
+>! Atenção: O link do pages só funcionará se o backend local estiver rodando, junto ao MySql do Xampp.
+
 ## Frontend web em React
 
 O frontend está na pasta [`react-web`](./react-web/), em um projeto React com Expo Router para o navegador. Ele contém uma home e páginas para cadastrar, listar, editar e excluir roupas e categorias, consumindo esta API.
